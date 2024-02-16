@@ -106,27 +106,27 @@ int main(void)
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1)
-    {
-        memset(buffer, 0, 10);
-        HAL_UART_Receive(&huart1, buffer, sizeof(buffer), 100);
-        token = strtok((char*)buffer, "*");
-        if (token != NULL)
         {
+            memset(buffer, 0, 10);
+            HAL_UART_Receive(&huart1, buffer, sizeof(buffer), 100);
+            token = strtok((char*)buffer, "*");
+            if (token != NULL)
+                {
 
-            delay = atoi(token);
-            HAL_UART_Transmit(&huart1, message, sizeof(message), 100);
+                    delay = atoi(token);
+                    HAL_UART_Transmit(&huart1, message, sizeof(message), 100);
 
+                }
+            currentTime = HAL_GetTick();
+            if (currentTime - previousTime >= delay)
+                {
+                    HAL_GPIO_TogglePin(Led_GPIO_Port, Led_Pin);
+                    previousTime = currentTime;
+                }
+            /* USER CODE END WHILE */
+
+            /* USER CODE BEGIN 3 */
         }
-        currentTime = HAL_GetTick();
-        if (currentTime - previousTime >= delay)
-        {
-            HAL_GPIO_TogglePin(Led_GPIO_Port, Led_Pin);
-            previousTime = currentTime;
-        }
-        /* USER CODE END WHILE */
-
-        /* USER CODE BEGIN 3 */
-    }
     /* USER CODE END 3 */
 }
 
@@ -150,9 +150,9 @@ void SystemClock_Config(void)
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-    {
-        Error_Handler();
-    }
+        {
+            Error_Handler();
+        }
 
     /** Initializes the CPU, AHB and APB buses clocks
     */
@@ -164,9 +164,9 @@ void SystemClock_Config(void)
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
     if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-    {
-        Error_Handler();
-    }
+        {
+            Error_Handler();
+        }
 }
 
 /**
@@ -193,9 +193,9 @@ static void MX_USART1_UART_Init(void)
     huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     huart1.Init.OverSampling = UART_OVERSAMPLING_16;
     if (HAL_UART_Init(&huart1) != HAL_OK)
-    {
-        Error_Handler();
-    }
+        {
+            Error_Handler();
+        }
     /* USER CODE BEGIN USART1_Init 2 */
 
     /* USER CODE END USART1_Init 2 */
@@ -246,8 +246,8 @@ void Error_Handler(void)
     /* User can add his own implementation to report the HAL error return state */
     __disable_irq();
     while (1)
-    {
-    }
+        {
+        }
     /* USER CODE END Error_Handler_Debug */
 }
 
